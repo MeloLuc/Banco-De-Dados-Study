@@ -56,3 +56,37 @@ WHERE report_code LIKE 'A_C%';
 
 SELECT * FROM STATION_DATA
 WHERE report_code LIKE 'AC%';
+
+-- booleans
+SELECT * FROM STATION_DATA
+WHERE tornado = 1 AND hail = 1;
+
+SELECT * FROM STATION_DATA
+WHERE tornado AND hail;
+
+SELECT * FROM STATION_DATA
+WHERE tornado = 0 AND hail = 1;
+
+SELECT * FROM STATION_DATA
+WHERE NOT tornado AND hail;
+
+--IS NULL, IS NOT NULL
+SELECT * FROM STATION_DATA
+WHERE snow_depth IS NULL;  -- null is often unwanted
+
+SELECT * FROM STATION_DATA
+WHERE precipitation <= 0.5; -- did you consider the null values?
+
+SELECT * FROM STATION_DATA
+WHERE precipitation IS NULL OR precipitation <= 0.5;
+
+-- using coalesce() - null -> specified default value
+SELECT * FROM STATION_DATA
+WHERE coalesce(precipitation, 0) <= 0.5;
+
+SELECT report_code, coalesce(precipitation, 1000) as rainfall
+FROM STATION_DATA;
+
+SELECT * FROM STATION_DATA
+WHERE (rain = 1 AND temperature <= 32)
+OR snow_depth > 0;
