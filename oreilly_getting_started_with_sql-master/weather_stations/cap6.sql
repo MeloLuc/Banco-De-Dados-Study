@@ -66,4 +66,65 @@ WHERE snow_depth IS NOT NULL
 GROUP BY year
 ORDER BY year;
 
+SELECT year, round(SUM(snow_depth), 2) AS total_snow_depth FROM STATION_DATA
+WHERE year >= 2000
+GROUP BY year
+ORDER BY year;
 
+SELECT year,
+SUM(snow_depth) AS total_snow,
+SUM(precipitation) AS total_precipitation,
+MAX(precipitation) AS max_precipitation
+FROM STATION_DATA
+GROUP BY year;
+
+SELECT year,
+SUM(snow_depth) AS total_snow,
+SUM(precipitation) AS total_precipitation,
+MAX(precipitation) AS max_precipitation
+FROM STATION_DATA
+WHERE snow_depth IS NOT NULL OR precipitation > 0
+GROUP BY year;
+
+SELECT year,
+SUM(precipitation) AS tornado_precipitation
+FROM STATION_DATA
+WHERE tornado = 1
+GROUP BY year
+ORDER BY year DESC;
+
+SELECT year, COUNT(*) AS tornados_per_year FROM STATION_DATA
+WHERE tornado = 1
+GROUP BY year
+ORDER BY year DESC;
+
+--we cannot use 'WHERE' in agrgregate values, we can only use them in records
+--to filter aggregates values we need use 'HAVING'
+SELECT year,
+SUM(precipitation) AS total_precipitation
+FROM STATION_DATA
+GROUP BY year
+HAVING total_precipitation > 30;  -- <- HERE
+
+SELECT year,
+SUM(precipitation) AS total_precipitation
+FROM STATION_DATA
+GROUP BY year
+HAVING SUM(precipitation) > 30; -- somes platforms need that you speficy the agregation function
+
+-- DISTINCT values
+SELECT station_number FROM STATION_DATA;
+
+SELECT DISTINCT station_number FROM STATION_DATA;
+
+SELECT DISTINCT station_number, year FROM STATION_DATA
+ORDER BY year;
+
+SELECT DISTINCT year FROM STATION_DATA;
+
+-- In that Chapter i learned how to group and order(sort) data to reduce thousands of records to just a few meaningful records.
+-- Some aggregation functions and keywords were:
+-- SUM(), MAX(), MIN(), AVG() AND COUNT()
+-- GROUP BY, ORDER BY (DESC), DISTINCT AND HAVING (WHERE).
+
+-- https://www.sqlite.org/lang_aggfunc.html
